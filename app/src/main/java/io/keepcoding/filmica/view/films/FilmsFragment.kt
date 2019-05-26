@@ -3,12 +3,14 @@ package io.keepcoding.filmica.view.films
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
+import io.keepcoding.filmica.view.util.EndlessRecyclerViewScrollListener
 import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
@@ -48,7 +50,17 @@ abstract class FilmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         list.adapter = adapter
+        setupRecyclerViewScroll()
+
         buttonRetry.setOnClickListener { reload() }
+    }
+
+    private fun setupRecyclerViewScroll() {
+        list.setOnScrollListener(object : EndlessRecyclerViewScrollListener(list.layoutManager as GridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                reload(page)
+            }
+        })
     }
 
     override fun onResume() {
@@ -56,7 +68,7 @@ abstract class FilmsFragment : Fragment() {
         reload()
     }
 
-    abstract fun reload()
+    abstract fun reload(page: Int = 1)
 
     fun showList() {
         layoutPlaceholder?.visibility = View.INVISIBLE

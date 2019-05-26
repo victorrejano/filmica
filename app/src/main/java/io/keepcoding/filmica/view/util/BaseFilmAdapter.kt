@@ -39,6 +39,12 @@ open class BaseFilmAdapter<VH : BaseFilmHolder>(
         notifyDataSetChanged()
     }
 
+    fun addFilms(films: List<Film>) {
+        val lastCount = itemCount
+        list.addAll(films)
+        notifyItemRangeInserted(lastCount, itemCount)
+    }
+
     fun deleteFilm(position: Int) {
         this.list.removeAt(position)
         notifyItemRemoved(position)

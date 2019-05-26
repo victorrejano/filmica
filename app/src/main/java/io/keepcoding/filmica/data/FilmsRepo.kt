@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 object FilmsRepo {
 
-    private val films: MutableList<Film> = mutableListOf()
+    private val films: HashSet<Film> = hashSetOf()
 
     @Volatile
     private var db: FilmDatabase? = null
@@ -87,17 +87,17 @@ object FilmsRepo {
 
     fun discoverFilms(
         context: Context,
+        page: Int = 1,
         onResponse: (List<Film>) -> Unit,
         onError: (VolleyError) -> Unit
     ) {
-        val url = ApiRoutes.discoverMoviesUrl()
+        val url = ApiRoutes.discoverMoviesUrl(page)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val films =
                     Film.parseFilms(response.getJSONArray("results"))
-                FilmsRepo.films.clear()
                 FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films)
+                onResponse.invoke(FilmsRepo.films.toList())
             },
             { error ->
                 error.printStackTrace()
@@ -111,18 +111,18 @@ object FilmsRepo {
 
     fun trendFilms(
         context: Context,
+        page: Int = 1,
         onResponse: (List<Film>) -> Unit,
         onError: (VolleyError) -> Unit
     ) {
 
-        val url = ApiRoutes.trendMoviesUrl()
+        val url = ApiRoutes.trendMoviesUrl(page)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val films =
                     Film.parseFilms(response.getJSONArray("results"))
-                FilmsRepo.films.clear()
                 FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films)
+                onResponse.invoke(FilmsRepo.films.toList())
             },
             { error ->
                 error.printStackTrace()
@@ -147,10 +147,9 @@ object FilmsRepo {
             { response ->
                 val films =
                     Film.parseFilms(response.getJSONArray("results"))
-                FilmsRepo.films.clear()
                 FilmsRepo.films.addAll(films)
-                val results = if (FilmsRepo.films.count() > 10) FilmsRepo.films.subList(0, 10) else FilmsRepo.films
-                onResponse.invoke(results)
+                val results = if (films.count() > 10) films.subList(0, 10) else films
+                onResponse.invoke(results.toList())
             },
             { error ->
                 error.printStackTrace()

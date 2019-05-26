@@ -6,6 +6,7 @@ import io.keepcoding.filmica.BuildConfig
 object ApiRoutes {
 
     fun discoverMoviesUrl(
+        page: Int = 1,
         language: String = "en-US",
         sort: String = "popularity.desc"
     ): String {
@@ -14,11 +15,13 @@ object ApiRoutes {
             .appendPath("movie")
             .appendQueryParameter("language", language)
             .appendQueryParameter("sort_by", sort)
+            .appendQueryParameter("page", page.toString())
             .build()
             .toString()
     }
 
     fun trendMoviesUrl(
+        page: Int = 1,
         language: String = "en-US",
         timeWindow: String = "week"
     ): String {
@@ -28,6 +31,7 @@ object ApiRoutes {
             .appendPath("movie")
             .appendPath(timeWindow)
             .appendQueryParameter("language", language)
+            .appendQueryParameter("page", page.toString())
             .build()
             .toString()
     }
