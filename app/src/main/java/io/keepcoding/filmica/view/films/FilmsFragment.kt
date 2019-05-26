@@ -71,7 +71,6 @@ abstract class FilmsFragment : Fragment() {
     }
 
     fun showProgress() {
-        layoutPlaceholder.visibility = View.GONE
         filmsProgress.visibility = View.VISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
