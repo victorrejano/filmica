@@ -90,7 +90,7 @@ class DetailFragment : Fragment() {
         buttonAdd.setOnClickListener {
             film?.let {
                 FilmsRepo.saveFilm(context!!, it) {
-                    Snackbar.make(buttonAdd, "${it.title} added to watchlist", Snackbar.LENGTH_LONG).setAction("UNDO") {
+                    Snackbar.make(buttonAdd, "${it.title} added to watchlist", Snackbar.LENGTH_LONG).setAction(getString(R.string.generic_undo)) {
                         FilmsRepo.deleteFilm(context!!, film!!) {}
                     }.show()
                 }

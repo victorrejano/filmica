@@ -17,4 +17,5 @@
     <string name="search_films">Search films...</string>
     <string name="no_films_found">No films found with current criteria</string>
     <string name="title_search">Search</string>
+    <string name="generic_undo">UNDO</string>
 </resources>

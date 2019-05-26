@@ -73,7 +73,7 @@ class WatchlistFragment : Fragment() {
             adapter.deleteFilm(position)
             displayData()
 
-            Snackbar.make(view!!, "${film.title} removed from watchList", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            Snackbar.make(view!!, "${film.title} removed from watchList", Snackbar.LENGTH_LONG).setAction(getString(R.string.generic_undo)) {
                 FilmsRepo.saveFilm(context!!, film) {
                     loadData()
                 }
