@@ -13,5 +13,9 @@
 
     <item android:id="@+id/action_trend"
           android:icon="@drawable/ic_trending_up"
-          android:title="@string/menu_trending"/>
+          android:title="@string/title_trending"/>
+
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/ic_search"
+          android:title="@string/title_search"/>
 </menu>

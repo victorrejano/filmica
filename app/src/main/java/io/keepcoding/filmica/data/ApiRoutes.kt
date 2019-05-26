@@ -27,7 +27,21 @@ object ApiRoutes {
             .appendPath("trending")
             .appendPath("movie")
             .appendPath(timeWindow)
-            .appendQueryParameter("language", language).build()
+            .appendQueryParameter("language", language)
+            .build()
+            .toString()
+    }
+
+    fun searchMovies(
+        query: String,
+        language: String = "en-US"
+    ): String {
+
+        return getUriBuilder().appendPath("search")
+            .appendPath("movie")
+            .appendQueryParameter("language", language)
+            .appendQueryParameter("query", query)
+            .build()
             .toString()
     }
 

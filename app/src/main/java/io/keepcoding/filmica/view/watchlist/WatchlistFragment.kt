@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_watchlist.*
 
 class WatchlistFragment : Fragment() {
 
-    val adapter: WatchListAdapter = WatchListAdapter {
+    val adapter: FilmListAdapter = FilmListAdapter {
         showDetail(it)
     }
 
@@ -69,6 +69,4 @@ class WatchlistFragment : Fragment() {
             adapter.setFilms(it)
         }
     }
-
-
 }

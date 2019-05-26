@@ -13,13 +13,13 @@ import io.keepcoding.filmica.view.util.BaseFilmHolder
 import io.keepcoding.filmica.view.util.SimpleTarget
 import kotlinx.android.synthetic.main.item_watchlist.view.*
 
-class WatchListAdapter(val listener: (Film) -> Unit) :
-    BaseFilmAdapter<WatchListAdapter.WatchListHolder>(
+class FilmListAdapter(val listener: (Film) -> Unit) :
+    BaseFilmAdapter<FilmListAdapter.FilmListHolder>(
         R.layout.item_watchlist,
-        { view -> WatchListHolder(view, listener) }
+        { view -> FilmListHolder(view, listener) }
         ) {
 
-    class WatchListHolder(itemView: View, listener: (Film) -> Unit) : BaseFilmHolder(
+    class FilmListHolder(itemView: View, listener: (Film) -> Unit) : BaseFilmHolder(
         itemView,
         listener
     ) {

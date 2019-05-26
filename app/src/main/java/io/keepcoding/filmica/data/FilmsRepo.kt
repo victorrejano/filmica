@@ -44,9 +44,9 @@ object FilmsRepo {
     ) {
         GlobalScope.launch(Dispatchers.Main) {
             val async = async(Dispatchers.IO) {
-            val db = getDbInstance(context)
-            db.filmDao().insertFilm(film)
-        }
+                val db = getDbInstance(context)
+                db.filmDao().insertFilm(film)
+            }
 
             async.await()
             callback.invoke(film)
@@ -109,9 +109,11 @@ object FilmsRepo {
             .add(request)
     }
 
-    fun trendFilms(context: Context,
-                   onResponse: (List<Film>) -> Unit,
-                   onError: (VolleyError) -> Unit) {
+    fun trendFilms(
+        context: Context,
+        onResponse: (List<Film>) -> Unit,
+        onError: (VolleyError) -> Unit
+    ) {
 
         val url = ApiRoutes.trendMoviesUrl()
         val request = JsonObjectRequest(Request.Method.GET, url, null,
@@ -121,6 +123,34 @@ object FilmsRepo {
                 FilmsRepo.films.clear()
                 FilmsRepo.films.addAll(films)
                 onResponse.invoke(FilmsRepo.films)
+            },
+            { error ->
+                error.printStackTrace()
+                onError.invoke(error)
+            }
+        )
+
+        Volley.newRequestQueue(context)
+            .add(request)
+
+    }
+
+    fun searchFilms(
+        context: Context,
+        query: String,
+        onResponse: (List<Film>) -> Unit,
+        onError: (VolleyError) -> Unit
+    ) {
+
+        val url = ApiRoutes.searchMovies(query)
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            { response ->
+                val films =
+                    Film.parseFilms(response.getJSONArray("results"))
+                FilmsRepo.films.clear()
+                FilmsRepo.films.addAll(films)
+                val results = if (FilmsRepo.films.count() > 10) FilmsRepo.films.subList(0, 10) else FilmsRepo.films
+                onResponse.invoke(results)
             },
             { error ->
                 error.printStackTrace()

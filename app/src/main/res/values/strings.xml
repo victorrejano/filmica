@@ -10,9 +10,11 @@
     <string name="title_watchlist">Watchlist</string>
     <string name="template_share">Let\'s watch %s, Movie DB rates it with %.1f/10</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_share">Share</string>
     <string name="title_share">Share film</string>
-    <string name="menu_trending">Trending</string>
+    <string name="title_trending">Trending</string>
+    <string name="search_films">Search films...</string>
+    <string name="no_films_found">No films found with current criteria</string>
+    <string name="title_search">Search</string>
 </resources>
