@@ -12,6 +12,9 @@
         android:layout_gravity="center"
         android:visibility="visible"/>
 
+    <include android:id="@+id/layoutPlaceholder"
+             layout="@layout/layout_placeholder"/>
+
     <include
         android:id="@+id/error"
         layout="@layout/layout_error"

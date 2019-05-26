@@ -53,6 +53,7 @@ class SearchFragment : Fragment() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.length > 3) {
+                    layoutPlaceholder.visibility = View.INVISIBLE
                     makeSearch(query)
                 } else {
                     Toast.makeText(

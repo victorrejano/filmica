@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
-import io.keepcoding.filmica.data.FilmsRepo
 import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
@@ -72,6 +71,7 @@ abstract class FilmsFragment : Fragment() {
     }
 
     fun showProgress() {
+        layoutPlaceholder.visibility = View.GONE
         filmsProgress.visibility = View.VISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE

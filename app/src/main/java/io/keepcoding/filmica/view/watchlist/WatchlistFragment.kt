@@ -71,6 +71,7 @@ class WatchlistFragment : Fragment() {
     private fun deleteFilm(film: Film, position: Int) {
         FilmsRepo.deleteFilm(context!!, film) {
             adapter.deleteFilm(position)
+            displayData()
 
             Snackbar.make(view!!, "${film.title} removed from watchList", Snackbar.LENGTH_LONG).setAction("UNDO") {
                 FilmsRepo.saveFilm(context!!, film) {
@@ -88,6 +89,17 @@ class WatchlistFragment : Fragment() {
     private fun loadData() {
         FilmsRepo.getFilms(context!!) {
             adapter.setFilms(it)
+            displayData()
+        }
+    }
+
+    private fun displayData() {
+        if (adapter.itemCount > 0) {
+            layoutPlaceholder.visibility = View.INVISIBLE
+            watchlist.visibility = View.VISIBLE
+        } else {
+            watchlist.visibility = View.INVISIBLE
+            layoutPlaceholder.visibility = View.VISIBLE
         }
     }
 }
