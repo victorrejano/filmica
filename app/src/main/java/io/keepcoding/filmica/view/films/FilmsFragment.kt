@@ -59,18 +59,21 @@ abstract class FilmsFragment : Fragment() {
     abstract fun reload()
 
     fun showList() {
+        layoutPlaceholder?.visibility = View.INVISIBLE
         filmsProgress.visibility = View.INVISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.VISIBLE
     }
 
     fun showError() {
+        layoutPlaceholder?.visibility = View.INVISIBLE
         filmsProgress.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
         error.visibility = View.VISIBLE
     }
 
     fun showProgress() {
+        layoutPlaceholder?.visibility = View.INVISIBLE
         filmsProgress.visibility = View.VISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
