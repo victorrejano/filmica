@@ -22,6 +22,10 @@ class WatchlistFragment : Fragment() {
         showDetail(it)
     }
 
+    companion object {
+        fun newInstance() = WatchlistFragment()
+    }
+
     private fun showDetail(film: Film) {
     }
 

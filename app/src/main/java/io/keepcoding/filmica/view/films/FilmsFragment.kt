@@ -14,7 +14,7 @@ import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
 
-class FilmsFragment : Fragment() {
+abstract class FilmsFragment : Fragment() {
 
     lateinit var listener: OnFilmClickLister
 
@@ -57,32 +57,21 @@ class FilmsFragment : Fragment() {
         reload()
     }
 
-    private fun reload() {
-        showProgress()
+    abstract fun reload()
 
-        FilmsRepo.discoverFilms(context!!,
-            { films ->
-                adapter.setFilms(films)
-                showList()
-
-            }, { errorRequest ->
-                showError()
-            })
-    }
-
-    private fun showList() {
+    fun showList() {
         filmsProgress.visibility = View.INVISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.VISIBLE
     }
 
-    private fun showError() {
+    fun showError() {
         filmsProgress.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
         error.visibility = View.VISIBLE
     }
 
-    private fun showProgress() {
+    fun showProgress() {
         filmsProgress.visibility = View.VISIBLE
         error.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE

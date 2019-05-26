@@ -9,17 +9,20 @@ import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.view.detail.DetailActivity
 import io.keepcoding.filmica.view.detail.DetailFragment
+import io.keepcoding.filmica.view.trends.TrendFilmsFragment
 import io.keepcoding.filmica.view.watchlist.WatchlistFragment
 import kotlinx.android.synthetic.main.activity_films.*
 
-const val TAG_FILM = "films"
+const val TAG_DISCOVER = "discover"
 const val TAG_WATCHLIST = "watchlist"
+const val TAG_TREND = "trends"
 
 class FilmsActivity : AppCompatActivity(),
     FilmsFragment.OnFilmClickLister {
 
-    private lateinit var filmsFragment: FilmsFragment
+    private lateinit var discoverFragment: DiscoverFilmsFragment
     private lateinit var watchlistFragment: WatchlistFragment
+    private lateinit var trendFilmsFragment: TrendFilmsFragment
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,14 +32,15 @@ class FilmsActivity : AppCompatActivity(),
         if (savedInstanceState == null) {
             setupFragments()
         } else {
-            val tag = savedInstanceState.getString("active", TAG_FILM)
+            val tag = savedInstanceState.getString("active", TAG_DISCOVER)
             restoreFragments(tag)
         }
 
         navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.action_discover -> showMainFragment(filmsFragment)
+                R.id.action_discover -> showMainFragment(discoverFragment)
                 R.id.action_watchlist -> showMainFragment(watchlistFragment)
+                R.id.action_trend -> showMainFragment(trendFilmsFragment)
             }
 
             true
@@ -50,27 +54,31 @@ class FilmsActivity : AppCompatActivity(),
     }
 
     private fun setupFragments() {
-        filmsFragment = FilmsFragment()
-        watchlistFragment = WatchlistFragment()
-        activeFragment = filmsFragment
+        discoverFragment = DiscoverFilmsFragment.newInstance()
+        watchlistFragment = WatchlistFragment.newInstance()
+        trendFilmsFragment = TrendFilmsFragment.newInstance()
+        activeFragment = discoverFragment
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, filmsFragment, TAG_FILM)
+            .add(R.id.container, discoverFragment, TAG_DISCOVER)
             .add(R.id.container, watchlistFragment, TAG_WATCHLIST)
+            .add(R.id.container, trendFilmsFragment, TAG_TREND)
             .hide(watchlistFragment)
+            .hide(trendFilmsFragment)
             .commit()
     }
 
     private fun restoreFragments(tag: String) {
-        filmsFragment = supportFragmentManager.findFragmentByTag(TAG_FILM) as FilmsFragment
+        discoverFragment = supportFragmentManager.findFragmentByTag(TAG_DISCOVER) as DiscoverFilmsFragment
         watchlistFragment =
             supportFragmentManager.findFragmentByTag(TAG_WATCHLIST) as WatchlistFragment
+        trendFilmsFragment = supportFragmentManager.findFragmentByTag(TAG_TREND) as TrendFilmsFragment
 
-        activeFragment =
-            if (tag == TAG_WATCHLIST)
-                watchlistFragment
-            else
-                filmsFragment
+        when (tag) {
+            TAG_WATCHLIST -> activeFragment = watchlistFragment
+            TAG_DISCOVER -> activeFragment = discoverFragment
+            TAG_TREND -> activeFragment = trendFilmsFragment
+        }
 
     }
 

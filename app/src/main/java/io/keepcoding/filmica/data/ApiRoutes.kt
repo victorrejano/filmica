@@ -14,9 +14,20 @@ object ApiRoutes {
             .appendPath("movie")
             .appendQueryParameter("language", language)
             .appendQueryParameter("sort_by", sort)
-            .appendQueryParameter("include_adult", "false")
-            .appendQueryParameter("include_video", "false")
             .build()
+            .toString()
+    }
+
+    fun trendMoviesUrl(
+        language: String = "en-US",
+        timeWindow: String = "week"
+    ): String {
+
+        return getUriBuilder()
+            .appendPath("trending")
+            .appendPath("movie")
+            .appendPath(timeWindow)
+            .appendQueryParameter("language", language).build()
             .toString()
     }
 
@@ -26,4 +37,6 @@ object ApiRoutes {
             .authority("api.themoviedb.org")
             .appendPath("3")
             .appendQueryParameter("api_key", BuildConfig.MovieDbApiKey)
+            .appendQueryParameter("include_adult", "false")
+            .appendQueryParameter("include_video", "false")
 }
