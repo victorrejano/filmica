@@ -1,6 +1,7 @@
 package io.keepcoding.filmica.view.watchlist
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
@@ -12,21 +13,21 @@ import android.view.ViewGroup
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.data.FilmsRepo
+import io.keepcoding.filmica.view.films.FilmsFragment
 import io.keepcoding.filmica.view.util.BaseFilmHolder
 import io.keepcoding.filmica.view.util.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 
 class WatchlistFragment : Fragment() {
 
+    private lateinit var listener: FilmsFragment.OnFilmClickLister
+
     val adapter: FilmListAdapter = FilmListAdapter {
-        showDetail(it)
+        listener.onClick(film = it)
     }
 
     companion object {
         fun newInstance() = WatchlistFragment()
-    }
-
-    private fun showDetail(film: Film) {
     }
 
     override fun onCreateView(
@@ -41,6 +42,16 @@ class WatchlistFragment : Fragment() {
 
         setupSwipeHandler()
         watchlist.adapter = adapter
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is FilmsFragment.OnFilmClickLister) {
+            listener = context
+        } else {
+            throw IllegalArgumentException("The attached activity isn't implementing ${FilmsFragment.OnFilmClickLister::class.java.canonicalName}")
+        }
     }
 
     private fun setupSwipeHandler() {

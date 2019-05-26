@@ -1,5 +1,6 @@
 package io.keepcoding.filmica.view.search
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.SearchView
@@ -9,15 +10,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import io.keepcoding.filmica.R
-import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.data.FilmsRepo
+import io.keepcoding.filmica.view.films.FilmsFragment
 import io.keepcoding.filmica.view.watchlist.FilmListAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
 
+    private lateinit var listener: FilmsFragment.OnFilmClickLister
+
     val adapter: FilmListAdapter = FilmListAdapter {
-        showDetail(it)
+        listener.onClick(film = it)
     }
 
     override fun onCreateView(
@@ -26,6 +29,16 @@ class SearchFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is FilmsFragment.OnFilmClickLister) {
+            listener = context
+        } else {
+            throw IllegalArgumentException("The attached activity isn't implementing ${FilmsFragment.OnFilmClickLister::class.java.canonicalName}")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,10 +88,6 @@ class SearchFragment : Fragment() {
 
     companion object {
         fun newInstance() = SearchFragment()
-    }
-
-    private fun showDetail(film: Film) {
-        Toast.makeText(context!!, "Detail showed", Toast.LENGTH_LONG).show()
     }
 
     private fun showList() {
