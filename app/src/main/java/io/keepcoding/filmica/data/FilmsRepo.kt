@@ -97,7 +97,7 @@ object FilmsRepo {
                 val films =
                     Film.parseFilms(response.getJSONArray("results"))
                 FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films.toList())
+                onResponse.invoke(films)
             },
             { error ->
                 error.printStackTrace()
@@ -122,7 +122,7 @@ object FilmsRepo {
                 val films =
                     Film.parseFilms(response.getJSONArray("results"))
                 FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films.toList())
+                onResponse.invoke(films)
             },
             { error ->
                 error.printStackTrace()
